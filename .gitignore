@@ -1,0 +1,10 @@
+node_modules/
+
+# misc
+package-lock.json
+.eslintrc.json
+/.vscode
+yarn.lock
+
+# config
+config/keys_dev.js
