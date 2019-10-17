@@ -11,7 +11,7 @@ exports.authenticate = (req, res, next) => {
 	jwt.verify(token, User.getJWTSecret(), (err, decoded) => {
 		if (err) {
 			// there was an error
-			// jwt is invalid - * DO NOT AUTHENTICATE *
+			// jwt is not valid - * DO NOT AUTHENTICATE *
 			res.status(401).send(err);
 		} else {
 			// jwt is valid
@@ -73,7 +73,7 @@ exports.verifySession = (req, res, next) => {
 		});
 };
 
-/* HELPER METHODS */
+// Delete task from list
 exports.deleteTasksFromList = _listId => {
 	Task.deleteMany({
 		_listId
