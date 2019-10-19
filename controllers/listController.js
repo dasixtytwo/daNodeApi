@@ -11,8 +11,8 @@ exports.getAllList = (req, res) => {
 		.then(lists => {
 			res.send(lists);
 		})
-		.catch(e => {
-			res.send(e);
+		.catch(err => {
+			res.send(err);
 		});
 };
 

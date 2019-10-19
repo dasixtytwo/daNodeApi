@@ -66,8 +66,7 @@ const ProfileSchema = new mongoose.Schema({
 	// with auth
 	_userId: {
 		type: mongoose.Types.ObjectId,
-		required: true,
-		ref: 'users'
+		required: true
 	}
 });
 

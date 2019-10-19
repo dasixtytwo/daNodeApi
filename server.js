@@ -8,7 +8,7 @@ const app = express();
 
 /* MIDDLEWARE  */
 const users = require('./routes/users'); // Import Users Routes
-const profiles = require('./routes/lists'); // Import Profile Routes
+const profiles = require('./routes/profiles'); // Import Profile Routes
 const lists = require('./routes/lists'); // Import list Routes
 
 // Load middleware
