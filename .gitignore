@@ -7,4 +7,5 @@ package-lock.json
 yarn.lock
 
 # config
-config/keys_dev.js
+/config/keys_dev.js
+/config/mailer_dev.js

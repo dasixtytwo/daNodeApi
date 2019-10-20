@@ -3,22 +3,18 @@ const validateProfileInput = require('../validation/profile');
 
 // Load profile model
 const { Profile } = require('../models/profile.model');
-// Load User Profile
-const { User } = require('../models/user.model');
 
 // @route  GET profiles/all
 // @desc   Get all profiles
 // @access Public
 exports.getAllProfile = (req, res) => {
-	Profile.find({
-		_userId: req.user_id
-	})
+	Profile.find()
 		.then(profiles => {
 			if (!profiles) {
 				errors.noprofile = 'There are no profiles';
 				res.status(404).json(errors);
 			}
-			res.send(profiles);
+			res.json(profiles);
 		})
 		.catch(err => res.status(404).json({ profile: 'There are no profiles' }));
 };
@@ -41,7 +37,7 @@ exports.findProfile = (req, res) => {
 
 // @route  GET /profile/users/:user_id
 // @desc   Get profile by user ID
-// @access Public
+// @access Private
 exports.findProfileById = (req, res) => {
 	Profile.findOne({ _id: req.params.id, _userId: req.params.user_id })
 		.then(profile => {
@@ -108,15 +104,27 @@ exports.createProfile = (req, res) => {
 	});
 };
 
+// @route  PATCH /profile/:id
+// @desc   Update a current user profile
+// @access Private
+exports.updateProfile = (req, res) => {
+	// We want to update the specified list (list document with id in the URL) with the new values specified in the JSON body of the request
+	Profile.findOneAndUpdate(
+		{ _id: req.params.id, _userId: req.user_id },
+		{
+			$set: req.body
+		}
+	).then(() => {
+		res.send({ message: 'Profile updated successfully' });
+	});
+};
+
 // @route  DELETE api/profile/
 // @desc   Delete profile
 // @access Private
 exports.deleteProfile = (req, res) => {
 	Profile.findOneAndRemove({
+		_id: req.params.id,
 		_userId: req.user_id
-	}).then(() => {
-		User.findOneAndRemove({
-			_id: req.user.id
-		}).then(() => res.json({ success: true }));
-	});
+	}).then(() => res.json({ success: true }));
 };
