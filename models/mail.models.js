@@ -16,10 +16,6 @@ const MailSchema = new mongoose.Schema({
 	date: {
 		type: Date,
 		default: Date.now
-	},
-	_userId: {
-		type: Schema.Types.ObjectId,
-		required: true
 	}
 });
 

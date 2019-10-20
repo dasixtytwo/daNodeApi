@@ -10,6 +10,9 @@ const app = express();
 const users = require('./routes/users'); // Import Users Routes
 const profiles = require('./routes/profiles'); // Import Profile Routes
 const lists = require('./routes/lists'); // Import list Routes
+const posts = require('./routes/posts'); // Import Posts Routes
+const mails = require('./routes/mails'); // Import mails Routes
+const projects = require('./routes/portfolios'); // Import portfolio Routes
 
 // Load middleware
 app.use(bodyParser.json());
@@ -38,6 +41,9 @@ app.use(function(req, res, next) {
 app.use('/api/v2/users', users); // Use users routes in application
 app.use('/api/v2/profiles', profiles); // Use profile routes in application
 app.use('/api/v2/lists', lists); // Use list routes in application
+app.use('/api/v2/posts', posts); // Use Blog routes in application
+app.use('/api/v2/mails', mails); // Use Mails routes in application
+app.use('/api/v2/projects', projects); // Use Portfolio routes in application
 
 app.listen(3000, () => {
 	console.log('Server is listening on port 3000');

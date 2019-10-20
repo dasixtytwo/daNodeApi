@@ -68,7 +68,7 @@ router.post(
 // @desc    Update portfolio by id
 // @access  Private
 router.put(
-	'/project/update/:id',
+	'/project/:id',
 	upload.single('projectImage'),
 	authenticate,
 	PortfolioController.update_project
@@ -77,10 +77,6 @@ router.put(
 // @route   DELETE api/v2/projects/:id
 // @desc    Remove project
 // @access  Private
-router.delete(
-	'/project/delete/:id',
-	authenticate,
-	PortfolioController.delete_project
-);
+router.delete('/project/:id', authenticate, PortfolioController.delete_project);
 
 module.exports = router;

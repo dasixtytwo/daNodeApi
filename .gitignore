@@ -9,3 +9,6 @@ yarn.lock
 # config
 /config/keys_dev.js
 /config/mailer_dev.js
+
+# assets
+/assets

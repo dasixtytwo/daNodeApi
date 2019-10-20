@@ -1,10 +1,6 @@
 const mongoose = require('mongoose');
 
 const PortfolioSchema = new mongoose.Schema({
-	_userId: {
-		type: Schema.Types.ObjectId,
-		required: true
-	},
 	title: {
 		type: String,
 		required: true
@@ -30,6 +26,10 @@ const PortfolioSchema = new mongoose.Schema({
 	date: {
 		type: Date,
 		default: Date.now
+	},
+	_userId: {
+		type: mongoose.Types.ObjectId,
+		required: true
 	}
 });
 
