@@ -39,7 +39,7 @@ exports.findProfile = (req, res) => {
 // @desc   Get profile by user ID
 // @access Private
 exports.findProfileById = (req, res) => {
-	Profile.findOne({ _id: req.params.id, _userId: req.params.user_id })
+	Profile.findOne({ _id: req.params.id, _userId: req.user_id })
 		.then(profile => {
 			if (!profile) {
 				errors.noprofile = 'There is no profile for this user';

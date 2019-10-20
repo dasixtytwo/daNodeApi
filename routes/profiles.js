@@ -26,11 +26,7 @@ router.get('/profile', authenticate, ProfileController.findProfile);
 // @route  GET /profiles/user/:user_id
 // @desc   Get profile by user ID
 // @access Public
-router.get(
-	'/profile/:user_id',
-	authenticate,
-	ProfileController.findProfileById
-);
+router.get('/profile/:id', authenticate, ProfileController.findProfileById);
 
 // @route  POST profile/new
 // @desc   Create a current user profile

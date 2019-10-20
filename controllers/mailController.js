@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 
-const Mail = require('../models/mail.models');
+const { Mail } = require('../models/mail.models');
 
 // Validation
 const validateMailInput = require('../validation/mail');

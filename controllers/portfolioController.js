@@ -1,4 +1,4 @@
-const Portfolio = require('../models/portfolio.models');
+const { Portfolio } = require('../models/portfolio.models');
 
 // Validation
 const validatePortfolioInput = require('../validation/portfolio');
@@ -21,9 +21,7 @@ exports.all_projects = (req, res) => {
 // @desc    Get project by id
 // @access  Public
 exports.project_by_id = (req, res) => {
-	Portfolio.findOne({
-		id: req.params._id
-	})
+	Portfolio.findOne({ _id: req.params.id })
 		.then(portfolio => {
 			if (!portfolio) {
 				errors.noproject = 'No project or the id is incorrect';
@@ -57,14 +55,13 @@ exports.update_project = (req, res) => {
 			urlProject,
 			description,
 			projectImage: req.file.filename,
-			category,
-			user: req.user.id
+			category
 		},
 		{ new: true }
 	)
 		.then(portfolio => {
 			// Check for post owner
-			if (portfolio.user.toString() !== req.user.id) {
+			if (portfolio._userId.toString() !== req.user_id) {
 				return res.status(401).json({ noauthorized: 'User not authorized' });
 			}
 			if (!portfolio) {
@@ -111,7 +108,7 @@ exports.add_project = (req, res) => {
 		description,
 		projectImage: req.file.filename,
 		category,
-		user: req.user.id
+		_userId: req.user_id
 	});
 
 	Portfolio.findOne({
@@ -131,10 +128,10 @@ exports.add_project = (req, res) => {
 // @desc    Delete project
 // @access  Private
 exports.delete_project = (req, res) => {
-	Portfolio.findOne({ id: req.params._id })
+	Portfolio.findOne({ _id: req.params.id })
 		.then(portfolio => {
 			// Check for post owner
-			if (portfolio.user.toString() !== req.user.id) {
+			if (portfolio._userId.toString() !== req.user_id) {
 				return res.status(401).json({ noauthorized: 'User not authorized' });
 			}
 

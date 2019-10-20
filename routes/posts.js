@@ -1,5 +1,9 @@
 const express = require('express');
 const router = express.Router();
+
+// Multer package configuration
+const multer = require('multer');
+
 const PostController = require('../controllers/postController');
 
 const { authenticate } = require('../helpers');

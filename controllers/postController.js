@@ -87,7 +87,7 @@ exports.delete_post = (req, res) => {
 	Post.findOne({ slug: req.params.slug })
 		.then(post => {
 			// Check for post owner
-			if (post.user.toString() !== req.user.id) {
+			if (post._userId.toString() !== req.user_id) {
 				return res.status(401).json({ noauthorized: 'User not authorized' });
 			}
 
@@ -108,8 +108,8 @@ exports.like_by_id = (req, res) => {
 	Post.findById(req.params.id)
 		.then(post => {
 			if (
-				post.likes.filter(like => like.user.toString() === req.user.id).length >
-				0
+				post.likes.filter(like => like._userId.toString() === req.user_id)
+					.length > 0
 			) {
 				return res
 					.status(400)
@@ -117,7 +117,7 @@ exports.like_by_id = (req, res) => {
 			}
 
 			// Add user _id to likes array
-			post.likes.unshift({ user: req.user.id });
+			post.likes.unshift({ _userId: req.user_id });
 
 			post.save().then(post => res.json(post));
 		})
@@ -131,7 +131,7 @@ exports.unlike_by_id = (req, res) => {
 	Post.findById(req.params.id)
 		.then(post => {
 			if (
-				post.likes.filter(like => like.user.toString() === req.user.id)
+				post.likes.filter(like => like._userId.toString() === req.user_id)
 					.length === 0
 			) {
 				return res
@@ -141,8 +141,8 @@ exports.unlike_by_id = (req, res) => {
 
 			// Get remove index
 			const removeIndex = post.likes
-				.map(item => item.user.toString())
-				.indexOf(req.user.id);
+				.map(item => item._userId.toString())
+				.indexOf(req.user_id);
 
 			// Splice out of array
 			post.likes.splice(removeIndex, 1);
@@ -170,7 +170,7 @@ exports.add_comment = (req, res) => {
 				bodyText: req.body.bodyText,
 				name: req.body.name,
 				avatar: req.body.avatar,
-				user: req.user.id
+				_userId: req.user_id
 			};
 
 			// Add to comment array
