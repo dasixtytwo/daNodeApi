@@ -37,9 +37,15 @@ router.get(
 // @access Private
 router.post('/profile/new', authenticate, ProfileController.createProfile);
 
+/**
+ * PATCH /profile/:id
+ * Purpose: Update a specified profile
+ */
+router.patch('/profile/:id', authenticate, ProfileController.updateProfile);
+
 // @route  DELETE /profile
 // @desc   Delete education from profile
 // @access Private
-router.delete('/profile', authenticate, ProfileController.deleteProfile);
+router.delete('/profile/:id', authenticate, ProfileController.deleteProfile);
 
 module.exports = router;
