@@ -13,6 +13,10 @@ const lists = require('./routes/lists'); // Import list Routes
 const posts = require('./routes/posts'); // Import Posts Routes
 const mails = require('./routes/mails'); // Import mails Routes
 const projects = require('./routes/portfolios'); // Import portfolio Routes
+const experiences = require('./routes/experiences'); // import experiences Routes
+const educations = require('./routes/educations'); // import education Routes
+const skills = require('./routes/skills'); // import skills Routes
+const socials = require('./routes/socials'); // import soials Routes
 
 // Load middleware
 app.use(bodyParser.json());
@@ -44,6 +48,10 @@ app.use('/api/v2/lists', lists); // Use list routes in application
 app.use('/api/v2/posts', posts); // Use Blog routes in application
 app.use('/api/v2/mails', mails); // Use Mails routes in application
 app.use('/api/v2/projects', projects); // Use Portfolio routes in application
+app.use('/api/v2/experiences', experiences); // Use Experience routes in application
+app.use('/api/v2/educations', educations); // Use Experience routes in application
+app.use('/api/v2/skills', skills); // Use Skills routes in application
+app.use('/api/v2/socials', socials); // Use Socials routes in application
 
 app.listen(3000, () => {
 	console.log('Server is listening on port 3000');

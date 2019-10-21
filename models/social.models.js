@@ -21,6 +21,11 @@ const SocialSchema = new mongoose.Schema({
 	},
 	github: {
 		type: String
+	},
+	// with auth
+	_userId: {
+		type: mongoose.Types.ObjectId,
+		required: true
 	}
 });
 

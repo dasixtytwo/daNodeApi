@@ -26,6 +26,11 @@ const EducationSchema = new mongoose.Schema({
 	},
 	description: {
 		type: String
+	},
+	// with auth
+	_userId: {
+		type: mongoose.Types.ObjectId,
+		required: true
 	}
 });
 

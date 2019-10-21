@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+
 // Helper for authorization by authentication
 const { authenticate } = require('../helpers');
 

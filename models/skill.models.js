@@ -8,6 +8,11 @@ const SkillSchema = new mongoose.Schema({
 	skillPercent: {
 		type: Number,
 		required: true
+	},
+	// with auth
+	_userId: {
+		type: mongoose.Types.ObjectId,
+		required: true
 	}
 });
 
