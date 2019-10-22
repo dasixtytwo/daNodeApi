@@ -36,12 +36,66 @@ exports.findSocial = (req, res) => {
 // @route  Get social/:id
 // @desc   Find social by id
 // @access Private
-experts.findSocialById = (req, res) => {};
+exports.findSocialById = (req, res) => {
+	Social.findOne({ _id: req.params.id })
+		.then(social => {
+			if (!social) {
+				errors.nosocial = 'No Social or the id is incorrect';
+				res.status(404).json(errors);
+			}
+			res.json(social);
+		})
+		.catch(err =>
+			res.status(404).json({
+				social: 'No Social found with this id.'
+			})
+		);
+};
 
 // @route  Patch social/:id
 // @desc   Update social
 // @access Private
-experts.updateSocialById = (req, res) => {};
+exports.updateSocialById = (req, res) => {
+	// destructuring
+	const {
+		youtube,
+		twitter,
+		facebook,
+		linkedin,
+		instagram,
+		googlePlus,
+		github
+	} = req.body;
+
+	// Find note and update it with the request body
+	Social.findByIdAndUpdate(
+		req.params.id,
+		{ youtube, twitter, facebook, linkedin, instagram, googlePlus, github },
+		{ new: true }
+	)
+		.then(social => {
+			// Check for post owner
+			if (social._userId.toString() !== req.user_id) {
+				return res.status(401).json({ noauthorized: 'User not authorized' });
+			}
+			if (!social) {
+				return res.status(404).send({
+					message: 'Social not found with id ' + req.params.id
+				});
+			}
+			res.send(social);
+		})
+		.catch(err => {
+			if (err.kind === 'ObjectId') {
+				return res.status(404).send({
+					message: 'Social not found with id ' + req.params.id
+				});
+			}
+			return res.status(500).send({
+				message: 'Error updating Social with id ' + req.params.id
+			});
+		});
+};
 
 // @route  Post social/new
 // @desc   Create new social
@@ -76,4 +130,16 @@ exports.createNewSocial = (req, res) => {
 // @route  Delete social/:id
 // @desc   delete social by id
 // @access Private
-exports.deleteSocial = (req, res) => {};
+exports.deleteSocial = (req, res) => {
+	Social.findOne({ _id: req.params.id })
+		.then(social => {
+			// Check for post owner
+			if (social._userId.toString() !== req.user_id) {
+				return res.status(401).json({ noauthorized: 'User not authorized' });
+			}
+
+			// delete
+			social.remove().then(() => res.json({ success: true }));
+		})
+		.catch(err => res.status(404).json({ noproject: 'No project found!' }));
+};

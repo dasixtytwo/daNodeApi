@@ -38,12 +38,58 @@ exports.findExperience = (req, res) => {
 // @route  Get experience/:id
 // @desc   Find experience by id
 // @access Private
-experts.findExperienceById = (req, res) => {};
+exports.findExperienceById = (req, res) => {
+	Experience.findOne({ _id: req.params.id })
+		.then(experience => {
+			if (!experience) {
+				errors.noexperience = 'No Experience or the id is incorrect';
+				res.status(404).json(errors);
+			}
+			res.json(experience);
+		})
+		.catch(err =>
+			res.status(404).json({
+				experience: 'No Experience found with this id.'
+			})
+		);
+};
 
 // @route  Patch experience/:id
 // @desc   Update experience
 // @access Private
-experts.updateExperienceById = (req, res) => {};
+exports.updateExperienceById = (req, res) => {
+	// destructuring
+	const { title, company, location, from, to, current, description } = req.body;
+
+	// Find note and update it with the request body
+	Experience.findByIdAndUpdate(
+		req.params.id,
+		{ title, company, location, from, to, current, description },
+		{ new: true }
+	)
+		.then(experience => {
+			// Check for post owner
+			if (experience._userId.toString() !== req.user_id) {
+				return res.status(401).json({ noauthorized: 'User not authorized' });
+			}
+			if (!experience) {
+				return res.status(404).send({
+					message: 'Experience not found with id ' + req.params.id
+				});
+			}
+			res.send(experience);
+		})
+		.catch(err => {
+			if (err.kind === 'ObjectId') {
+				return res.status(404).send({
+					message: 'Experience not found with id ' + req.params.id
+				});
+			}
+			return res.status(500).send({
+				message: 'Error updating experience with id ' + req.params.id
+			});
+		});
+};
 
 // @route  Post experience/new
 // @desc   Create new experience
@@ -78,4 +124,16 @@ exports.createNewExperience = (req, res) => {
 // @route  Delete experience/:id
 // @desc   delete experience by id
 // @access Private
-exports.deleteExperience = (req, res) => {};
+exports.deleteExperience = (req, res) => {
+	Experience.findOne({ _id: req.params.id })
+		.then(experience => {
+			// Check for post owner
+			if (experience._userId.toString() !== req.user_id) {
+				return res.status(401).json({ noauthorized: 'User not authorized' });
+			}
+
+			// delete
+			experience.remove().then(() => res.json({ success: true }));
+		})
+		.catch(err => res.status(404).json({ noproject: 'No experience found!' }));
+};
