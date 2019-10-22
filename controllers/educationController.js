@@ -38,12 +38,66 @@ exports.findEducation = (req, res) => {
 // @route  Get education/:id
 // @desc   Find education by id
 // @access Private
-experts.findEducationById = (req, res) => {};
+exports.findEducationById = (req, res) => {
+	Education.findOne({ _id: req.params.id })
+		.then(education => {
+			if (!education) {
+				errors.noeducation = 'No Education or the id is incorrect';
+				res.status(404).json(errors);
+			}
+			res.json(education);
+		})
+		.catch(err =>
+			res.status(404).json({
+				education: 'No education found with this id.'
+			})
+		);
+};
 
 // @route  Patch education/:id
 // @desc   Update education
 // @access Private
-experts.updateEducationById = (req, res) => {};
+exports.updateEducationById = (req, res) => {
+	// destructuring
+	const {
+		school,
+		degree,
+		fieldOfStudy,
+		from,
+		to,
+		current,
+		description
+	} = req.body;
+
+	// Find note and update it with the request body
+	Education.findByIdAndUpdate(
+		req.params.id,
+		{ school, degree, fieldOfStudy, from, to, current, description },
+		{ new: true }
+	)
+		.then(education => {
+			// Check for post owner
+			if (education._userId.toString() !== req.user_id) {
+				return res.status(401).json({ noauthorized: 'User not authorized' });
+			}
+			if (!education) {
+				return res.status(404).send({
+					message: 'Education not found with id ' + req.params.id
+				});
+			}
+			res.send(education);
+		})
+		.catch(err => {
+			if (err.kind === 'ObjectId') {
+				return res.status(404).send({
+					message: 'Education not found with id ' + req.params.id
+				});
+			}
+			return res.status(500).send({
+				message: 'Error updating education with id ' + req.params.id
+			});
+		});
+};
 
 // @route  Post education/new
 // @desc   Create new education
@@ -78,4 +132,16 @@ exports.createNewEducation = (req, res) => {
 // @route  Delete education/:id
 // @desc   delete education by id
 // @access Private
-exports.deleteEducation = (req, res) => {};
+exports.deleteEducation = (req, res) => {
+	Education.findOne({ _id: req.params.id })
+		.then(education => {
+			// Check for post owner
+			if (education._userId.toString() !== req.user_id) {
+				return res.status(401).json({ noauthorized: 'User not authorized' });
+			}
+
+			// delete
+			education.remove().then(() => res.json({ success: true }));
+		})
+		.catch(err => res.status(404).json({ noproject: 'No Education found!' }));
+};
