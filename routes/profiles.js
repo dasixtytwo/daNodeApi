@@ -4,15 +4,6 @@ const router = express.Router();
 const ProfileController = require('../controllers/profileController');
 const { authenticate } = require('../helpers');
 
-// @route  GET profile/test
-// @desc   Test profile route
-// @access Public
-router.get('/test', (req, res) =>
-	res.json({
-		msg: 'Profile Works'
-	})
-);
-
 // @route  GET api/profiles/all
 // @desc   Get all profile
 // @access Public

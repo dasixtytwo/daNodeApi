@@ -35,15 +35,6 @@ const upload = multer({
 	fileFilter: fileFilter
 });
 
-// @route  GET api/v2/projects/test
-// @desc   Test portfolio route
-// @access Public
-router.get('/test', (req, res) =>
-	res.json({
-		msg: 'Portfolio Works'
-	})
-);
-
 // @route   GET api/v2/projects
 // @desc    Get all projects
 // @access  Public
