@@ -35,60 +35,34 @@ const upload = multer({
 	fileFilter: fileFilter
 });
 
-// @route  GET api/v2/posts/test
-// @desc   Test post route
-// @access Public
-router.get('/test', (req, res) =>
-	res.json({
-		msg: 'Posts Works'
-	})
-);
+router.get('/all', PostController.all_post);
 
-// @route   GET api/v2/posts
-// @desc    Get all posts
-// @access  Public
-router.get('/', PostController.all_post);
-
-// @route   GET api/v2/posts/:slug
-// @desc    Get post by slug
-// @access  Public
 router.get('/post/:slug', PostController.blog_by_slug);
 
-// @route   POST api/v2/posts
-// @desc    Create post
-// @access  Private
 router.post(
-	'/',
+	'/new',
 	upload.single('postImage'),
 	authenticate,
 	PostController.create_post
 );
 
-// @route   DELETE api/v2/posts/:id
-// @desc    Delete post
-// @access  Private
-router.delete('/:slug', authenticate, PostController.delete_post);
+router.patch(
+	'/post/:id',
+	authenticate,
+	upload.single('postImage'),
+	PostController.updatePost
+);
 
-// @route   POST api/v2/posts/like/:id
-// @desc    Like post
-// @access  Private
-router.post('/like/:id', authenticate, PostController.like_by_id);
+router.delete('/post/:slug', authenticate, PostController.delete_post);
 
-// @route   POST api/v2/posts/unlike/:id
-// @desc    Unlike post
-// @access  Private
-router.post('/unlike/:id', authenticate, PostController.unlike_by_id);
+router.post('/post/like/:id', authenticate, PostController.like_by_id);
 
-// @route   POST api/v2/posts/comment/:id
-// @desc    Add comment to post
-// @access  Private
-router.post('/comment/:id', authenticate, PostController.add_comment);
+router.post('/post/unlike/:id', authenticate, PostController.unlike_by_id);
 
-// @route   DELETE api/v2/posts/comment/:id/:comment_id
-// @desc    Remove comment from post
-// @access  Private
+router.post('/post/comment/:id', authenticate, PostController.add_comment);
+
 router.delete(
-	'/comment/:id/comment_id',
+	'/post/comment/:id/:comment_id',
 	authenticate,
 	PostController.delete_comment
 );

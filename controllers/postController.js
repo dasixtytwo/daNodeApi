@@ -1,5 +1,5 @@
 // Post model
-const Post = require('../models/post.models');
+const { Post } = require('../models/post.models');
 
 // Validation
 const validatePostInput = require('../validation/post');
@@ -37,6 +37,54 @@ exports.blog_by_slug = (req, res) => {
 		);
 };
 
+// @route   PATCH posts/:slug
+// @desc    Update post by slug
+// @access  Private
+exports.updatePost = (req, res) => {
+	// destructuring
+	const { title, subtitle, bodyText, category, author } = req.body;
+
+	// create dinamically the slug by title
+	const slug = title.split(' ').join('-').toLowerCase();
+
+	// Find note and update it with the request body
+	Post.findByIdAndUpdate(
+		req.params.id,
+		{
+			title,
+			subtitle,
+			slug,
+			postImage: req.file.filename,
+			bodyText,
+			category,
+			author
+		},
+		{ new: true }
+	)
+		.then(post => {
+			// Check for post owner
+			if (post._userId.toString() !== req.user_id) {
+				return res.status(401).json({ noauthorized: 'User not authorized' });
+			}
+			if (!post) {
+				return res.status(404).send({
+					message: 'Post not found with id ' + req.params.id
+				});
+			}
+			res.send(post);
+		})
+		.catch(err => {
+			if (err.kind === 'ObjectId') {
+				return res.status(404).send({
+					message: 'Post not found with id ' + req.params.id
+				});
+			}
+			return res.status(500).send({
+				message: 'Error updating post with id ' + req.params.id
+			});
+		});
+};
+
 // @route   POST api/v2/posts
 // @desc    Create post
 // @access  Private
@@ -63,7 +111,7 @@ exports.create_post = (req, res) => {
 		bodyText,
 		category,
 		author,
-		user: req.user.id,
+		_userId: req.user_id,
 		avatar
 	});
 
