@@ -5,7 +5,11 @@ const db = require('./keys').mongoURI; // Mongoose Config
 
 mongoose.Promise = global.Promise;
 mongoose
-	.connect(db, { useNewUrlParser: true })
+	.connect(db, {
+		useNewUrlParser: true,
+		useCreateIndex: true,
+		useUnifiedTopology: true
+	})
 	.then(() => {
 		console.log('MongoDB successfully connected :)');
 	})
