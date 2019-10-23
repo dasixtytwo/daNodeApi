@@ -67,7 +67,7 @@ router.post(
 // @route   GET api/v2/projects/update/:id
 // @desc    Update portfolio by id
 // @access  Private
-router.put(
+router.patch(
 	'/project/:id',
 	upload.single('projectImage'),
 	authenticate,

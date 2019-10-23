@@ -111,7 +111,7 @@ exports.createNewSocial = (req, res) => {
 	let googlePlus = req.body.googlePlus;
 	let github = req.body.github;
 
-	let newSocial = new Skill({
+	let newSocial = new Social({
 		youtube,
 		twitter,
 		facebook,
