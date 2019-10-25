@@ -1,6 +1,5 @@
 // Load Input Validation
 const validateRegisterInput = require('../validation/signup');
-const validateLoginInput = require('../validation/login');
 const gravatar = require('gravatar');
 
 // Load User Model
@@ -13,7 +12,6 @@ exports.signUpUser = (req, res) => {
 	const { errors, isValid } = validateRegisterInput(req.body);
 
 	// Destructuring
-	//let body = req.body;
 	const { email, password } = req.body;
 
 	// Check validation
@@ -62,8 +60,6 @@ exports.signUpUser = (req, res) => {
 // @access Public
 exports.loginUser = (req, res) => {
 	const { email, password } = req.body;
-	//let email = req.body.email;
-	//let password = req.body.password;
 
 	User.findByCredentials(email, password)
 		.then(user => {
@@ -75,10 +71,7 @@ exports.loginUser = (req, res) => {
 
 					return user.generateAccessAuthToken().then(accessToken => {
 						// access auth token generated successfully, now we return an object containing the auth tokens
-						return {
-							accessToken,
-							refreshToken
-						};
+						return { accessToken, refreshToken };
 					});
 				})
 				.then(authTokens => {
