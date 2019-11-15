@@ -9,15 +9,15 @@ const { authenticate } = require('../helpers');
 // @access Public
 router.get('/all', ProfileController.getAllProfile);
 
+// @route  GET /profiles/user/:user_id
+// @desc   Get profile by user ID
+// @access Public
+router.get('/profile/:id', ProfileController.findProfileById);
+
 // @route  GET /profiles
 // @desc   Get current user profile
 // @access private
 router.get('/profile', authenticate, ProfileController.findProfile);
-
-// @route  GET /profiles/user/:user_id
-// @desc   Get profile by user ID
-// @access Public
-router.get('/profile/:id', authenticate, ProfileController.findProfileById);
 
 // @route  POST profile/new
 // @desc   Create a current user profile
