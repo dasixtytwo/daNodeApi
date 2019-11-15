@@ -53,6 +53,9 @@ app.use('/api/v2/educations', educations); // Use Experience routes in applicati
 app.use('/api/v2/skills', skills); // Use Skills routes in application
 app.use('/api/v2/socials', socials); // Use Socials routes in application
 
-app.listen(3000, () => {
-	console.log('Server is listening on port 3000');
+// Server
+const port = process.env.PORT || 5000;
+
+app.listen(port, () => {
+	console.log(`Server is listening on port ${port}`);
 });
