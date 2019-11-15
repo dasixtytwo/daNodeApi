@@ -8,16 +8,12 @@ const { authenticate } = require('../helpers');
 
 router.get('/all', ExperienceController.getAllExperience);
 
+router.get('/experience/:id', ExperienceController.findExperienceById);
+
 router.get('/cu', authenticate, ExperienceController.findExperience);
 
-router.get(
-	'/education/:id',
-	authenticate,
-	ExperienceController.findExperienceById
-);
-
 router.patch(
-	'/education/:id',
+	'/experience/:id',
 	authenticate,
 	ExperienceController.updateExperienceById
 );
@@ -29,7 +25,7 @@ router.post(
 );
 
 router.delete(
-	'/education/:id',
+	'/exprence/:id',
 	authenticate,
 	ExperienceController.deleteExperience
 );

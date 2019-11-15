@@ -6,13 +6,9 @@ const { authenticate } = require('../helpers');
 
 router.get('/all', EducationController.getAllEducation);
 
-router.get('/cu', authenticate, EducationController.findEducation);
+router.get('/education/:id', EducationController.findEducationById);
 
-router.get(
-	'/education/:id',
-	authenticate,
-	EducationController.findEducationById
-);
+router.get('/cu', authenticate, EducationController.findEducation);
 
 router.patch(
 	'/education/:id',

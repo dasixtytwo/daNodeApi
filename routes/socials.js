@@ -6,9 +6,9 @@ const { authenticate } = require('../helpers');
 
 router.get('/all', SocialController.getAllSocial);
 
-router.get('/cu', authenticate, SocialController.findSocial);
+router.get('/social/:id', SocialController.findSocialById);
 
-router.get('/social/:id', authenticate, SocialController.findSocialById);
+router.get('/cu', authenticate, SocialController.findSocial);
 
 router.patch('/social/:id', authenticate, SocialController.updateSocialById);
 

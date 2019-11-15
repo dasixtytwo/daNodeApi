@@ -6,9 +6,9 @@ const { authenticate } = require('../helpers');
 
 router.get('/all', SkillController.getAllSkill);
 
-router.get('/cu', authenticate, SkillController.findSkill);
+router.get('/skill/:id', SkillController.findSkillById);
 
-router.get('/skill/:id', authenticate, SkillController.findSkillById);
+router.get('/cu', authenticate, SkillController.findSkill);
 
 router.patch('/skill/:id', authenticate, SkillController.updateSkillById);
 
