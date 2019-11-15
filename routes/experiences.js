@@ -25,7 +25,7 @@ router.post(
 );
 
 router.delete(
-	'/exprence/:id',
+	'/experience/:id',
 	authenticate,
 	ExperienceController.deleteExperience
 );
