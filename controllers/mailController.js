@@ -50,7 +50,7 @@ exports.send_contact_mail = (req, res) => {
 	// Prepare the mail format to send
 	const mailOption = {
 		from: newMail.fullname,
-		to: 'contact@davideagosti.co.uk',
+		to: 'support@davideagosti.co.uk',
 		subject: newMail.subject,
 		html:
 			'<p>' +
