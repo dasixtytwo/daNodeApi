@@ -42,7 +42,7 @@ exports.send_contact_mail = (req, res) => {
 	// New object
 	const newMail = new Mail({
 		fullname: req.body.fullname,
-		subject: 'Message Contact Me',
+		subject: req.body.subject,
 		email: req.body.email,
 		message: req.body.message
 	});
